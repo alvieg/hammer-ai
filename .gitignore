@@ -1,18 +1,13 @@
-# Node modules
+# Node dependencies
 node_modules/
+
+# Environment variables
 .env
 
-# Logs
-logs/
-*.log
-
-# System
+# OS metadata
 .DS_Store
 Thumbs.db
 
-# Optional cache/output dirs
+# Build artifacts (optional)
 dist/
 build/
-
-# VSCode config
-.vscode/

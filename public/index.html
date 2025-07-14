@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <title>Chat with GPT</title>
+</head>
+
+<body>
+  <!-- Background Canvases -->
+  <canvas id="canvas1"></canvas> <!-- Node Mesh -->
+  <canvas id="canvas2"></canvas> <!-- Wave Grid -->
+
+  <!-- Header -->
+  <header>
+    <h1>Chat with HammerAI</h1>
+    <h3></h3>
+  </header>
+
+  <!-- Main Chat UI -->
+  <main>
+    <div class="chatMessageArea">
+      <div class="chatMessages"></div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" name="userInput" id="userInput" placeholder="Ask me anything..." />
+      <button id="sendButton">Send</button>
+      <button onclick="saveChatToLocalStorage()" class="toolButton">Save</button>
+      <button onclick="deleteChatFromLocalStorage()" class="toolButton">Clear</button>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/style.js"></script>
+</body>
+
+</html>

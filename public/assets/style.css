@@ -1,0 +1,210 @@
+body {
+    background-color: #0f172a;
+    color: #e0e7ff;
+    font-family: 'inter', sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    justify-content: center;
+}
+
+header {
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+
+.chatMessageArea {
+    width: 80%;
+    max-width: 600px;
+    background: #1e293b;
+    /* Slightly lighter navy */
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgb(14 165 233 / 0.4);
+    /* subtle cyan glow */
+    height: 400px;
+    z-index: 5;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+
+}
+
+.toolbar {
+    width: 75%;
+    max-width: 575px;
+    background: #1e293b;
+    /* Slightly lighter navy */
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgb(14 165 233 / 0.4);
+    /* subtle cyan glow */
+    margin-top: 1.5rem;
+    align-items: center;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    gap: 0.5rem;
+}
+
+
+#userInput {
+    width: 70%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: none;
+    /* Bright blue border */
+    background-color: #1e293b;
+    /* Slightly lighter navy */
+    color: #e0e7ff;
+    /* Light text color */
+    font-size: 1rem;
+    resize: none;
+    outline: none;
+    height: 1.5rem;
+    grid-column: span 7;
+    gap: 0.5rem;
+}
+
+#userInput:focus {
+    outline: none;
+}
+
+#userInput::placeholder {
+    color: #94a3b8;
+    /* Placeholder text color */
+}
+
+#sendButton,
+.toolButton {
+    background-color: #0ea5e9;
+    /* cyan accent */
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f0f9ff;
+    font-size: 1rem;
+    align-self: center;
+    box-shadow: 0 4px 6px rgb(14 165 233 / 0.6);
+    width: auto;
+    text-align: center;
+    align-items: center;
+    grid-column: span 2;
+}
+
+.chatMessageArea {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #0f172a;
+}
+
+/* Optional: side-by-side layout (but stacked is cleaner for chat) */
+/* .chatMessageArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+} */
+
+.chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+
+.userMessage,
+.botMessage {
+    max-width: 55%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Bot bubbles (left) */
+.botMessage {
+    background-color: #334155;
+    color: #f8fafc;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+/* User bubbles (right) */
+.userMessage {
+    background-color: #0ea5e9;
+    color: #f0f9ff;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+/* Smooth fade animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Optional: Smooth scroll */
+.chatMessageArea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chatMessageArea::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.botMessage a {
+    color: #38bdf8;
+    text-decoration: underline;
+    word-break: break-word;
+}
+
+.botMessage code {
+    background-color: #0f172a;
+    color: #f0f9ff;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+
+.botMessage pre {
+    background-color: #0f172a;
+    color: #f0f9ff;
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    font-family: 'Courier New', monospace;
+}

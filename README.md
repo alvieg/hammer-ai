@@ -11,3 +11,7 @@ npm install
 npm start
 ```
 4. View [index.html](public/index.html) and test it out
+
+Note: Will not deploy to vercel
+
+Warning: Make your repository private to keep you API Key safe

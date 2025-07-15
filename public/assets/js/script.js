@@ -4,24 +4,35 @@ const sendButton = document.getElementById("sendButton");
 const chatMessages = document.querySelector(".chatMessages");
 const modelSelect = document.getElementById("model"); // <-- Add this
 
-const models = [
-  { id: "gemma-9b-iterative", name: "Gemma 9B Iterative" },
-  { id: "llama-3.1-8b-instant", name: "Llama 3.1 8B Instant" },
-  { id: "llama-3.3-70b-versatile", name: "Llama 3.3 70B Versatile" },
-  { id: "meta-llama/llama-guard-4-12b", name: "Llama Guard 4 12B" },
+const models = {
+  "Google": [
+    { id: "gemma-9b", name: "Gemma 9B Iterative" }
+  ],
+  "Meta": [
+    { id: "llama-3.1-8b-instant", name: "Llama 3.1 8B Instant" },
+    { id: "llama-3.3-70b-versatile", name: "Llama 3.3 70B Versatile" },
+    { id: "meta-llama/llama-guard-4-12b", name: "Llama Guard 4 12B" },
+  ],
   // The following may stop working at any time
-  { id: "deepseek-r1-distill-llama-70b", name: "DeepSeek R1 Distill Llama 70B" },
-  { id: "mistral-saba-24b", name: "Mistral Saba 24B" },
-  { id: "moonshotai/kimi-k2-instruct", name: "Kimi K2 Instruct" },
-  { id: "playai-tts", name: "PlayAI TTS" },
-  { id: "compound-beta", name: "Compound Beta" },
-]
+  "Experimental": [
+    { id: "deepseek-r1-distill-llama-70b", name: "DeepSeek R1 Distill Llama 70B" },
+    { id: "mistral-saba-24b", name: "Mistral Saba 24B" },
+    { id: "moonshotai/kimi-k2-instruct", name: "Kimi K2 Instruct" },
+    { id: "playai-tts", name: "PlayAI TTS" },
+    { id: "compound-beta", name: "Compound Beta" },
+  ]
+};
 
-for (const model of models) {
-  const option = document.createElement("option");
-  option.value = model.id;
-  option.textContent = model.name;
-  modelSelect.appendChild(option);
+for (const [name, items] of Object.entries(models)) {
+  const optgrp = document.createElement('optgroup');
+  optgrp.label = name;
+  for (const item of items) {
+    const opt = document.createElement('option');
+    opt.value = item.id;
+    opt.textContent = item.name;
+    optgrp.appendChild(opt);
+  };
+  modelSelect.appendChild(optgrp);
 }
 
 async function sendMessage() {
@@ -94,10 +105,11 @@ function saveChatToLocalStorage() {
     content: el.innerHTML
   }));
 
-  const currentModel = modelSelect.value;
+  const currentModel = modelSelect;
   if (messages.length === 0) return;
   localStorage.setItem("chatHistory", JSON.stringify(messages));
-  localStorage.setItem("chatModel", currentModel); // Save selected model
+  localStorage.setItem("chatModel", currentModel.value); // Save selected model
+  localStorage.setItem("modelName", currentModel.options[currentModel.selectedIndex].text); // Save model name
   console.log("Chat saved to localStorage");
 }
 
@@ -116,8 +128,11 @@ function loadChatFromLocalStorage() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
   const savedModel = localStorage.getItem("chatModel");
-  if (savedModel && models.some(model => model.id === savedModel)) {
-    modelSelect.value = savedModel; // Restore selected model
+  if (savedModel) {
+    const allModelIds = Object.values(models).flat().map(m => m.id);
+    if (allModelIds.includes(savedModel)) {
+      modelSelect.value = savedModel;
+    }
   }
 }
 

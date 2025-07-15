@@ -14,15 +14,16 @@ for (const button of buttons) {
         const rotateY = ((x - centerX) / centerX) * 20;
 
         button.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        button.style.boxShadow = ``
 
         const percentX = (x / rect.width) * 100;
         const percentY = (y / rect.height) * 100;
-        // button.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, #0ea5e9, #0f172a)`;
+        //button.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, #0ea5e9, #0f172a)`;
     });
 
     button.addEventListener('mouseleave', function () {
         button.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        button.style.boxShadow = 'box-shadow: 0 4px 6px rgb(14 165 233 / 0.6)';
+        button.style.boxShadow = '0 4px 6px rgb(14 165 233 / 0.6)';
         button.style.background = '#0ea5e9';
     });
 }
@@ -43,11 +44,7 @@ function typeTextEffect(element, text, speed = 40) {
 
 // ===== Typing Effect on Header =====
 window.addEventListener('DOMContentLoaded', () => {
-    const text = "Powered By Google's Gemma AI, Hosted By Groq";
-    const target = document.querySelector("h3");
-    if (target) {
-        typeTextEffect(target, text, 80);
-    }
+    typeTextEffect(document.querySelector('h3'), 'Powered by Groq', 70);
 });
 
 // ===== Node Mesh Effect =====
@@ -56,7 +53,7 @@ const ctxNode = canvasNode.getContext('2d');
 canvasNode.width = window.innerWidth;
 canvasNode.height = window.innerHeight;
 
-const particles = Array.from({ length: 80 }, () => ({
+const particles = Array.from({ length: 200 }, () => ({
     x: Math.random() * canvasNode.width,
     y: Math.random() * canvasNode.height,
     vx: (Math.random() - 0.5) * 1.5,
@@ -121,13 +118,13 @@ drawWaveGrid();
 
 // ===== Canvas Resize (Responsive) =====
 function resizeCanvases() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
-  canvasNode.width = width;
-  canvasNode.height = height;
-  canvasWave.width = width;
-  canvasWave.height = height;
+    canvasNode.width = width;
+    canvasNode.height = height;
+    canvasWave.width = width;
+    canvasWave.height = height;
 }
 
 window.addEventListener("load", resizeCanvases);

@@ -4,6 +4,26 @@ const sendButton = document.getElementById("sendButton");
 const chatMessages = document.querySelector(".chatMessages");
 const modelSelect = document.getElementById("model"); // <-- Add this
 
+const models = [
+  { id: "gemma-9b-iterative", name: "Gemma 9B Iterative" },
+  { id: "llama-3.1-8b-instant", name: "Llama 3.1 8B Instant" },
+  { id: "llama-3.3-70b-versatile", name: "Llama 3.3 70B Versatile" },
+  { id: "meta-llama/llama-guard-4-12b", name: "Llama Guard 4 12B" },
+  // The following may stop working at any time
+  { id: "deepseek-r1-distill-llama-70b", name: "DeepSeek R1 Distill Llama 70B" },
+  { id: "mistral-saba-24b", name: "Mistral Saba 24B" },
+  { id: "moonshotai/kimi-k2-instruct", name: "Kimi K2 Instruct" },
+  { id: "playai-tts", name: "PlayAI TTS" },
+  { id: "compound-beta", name: "Compound Beta" },
+]
+
+for (const model of models) {
+  const option = document.createElement("option");
+  option.value = model.id;
+  option.textContent = model.name;
+  modelSelect.appendChild(option);
+}
+
 async function sendMessage() {
   const message = userInput.value.trim();
   const model = modelSelect.value; // <-- Get selected model
@@ -74,8 +94,11 @@ function saveChatToLocalStorage() {
     content: el.innerHTML
   }));
 
+  const currentModel = modelSelect.value;
   if (messages.length === 0) return;
   localStorage.setItem("chatHistory", JSON.stringify(messages));
+  localStorage.setItem("chatModel", currentModel); // Save selected model
+  console.log("Chat saved to localStorage");
 }
 
 // Load chat messages from localStorage on page load
@@ -91,6 +114,11 @@ function loadChatFromLocalStorage() {
     chatMessages.appendChild(el);
   });
   chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  const savedModel = localStorage.getItem("chatModel");
+  if (savedModel && models.some(model => model.id === savedModel)) {
+    modelSelect.value = savedModel; // Restore selected model
+  }
 }
 
 // Delete chat history from localStorage and UI

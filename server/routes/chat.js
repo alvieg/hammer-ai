@@ -14,9 +14,15 @@ const MODEL = "llama-3.1-8b-instant"; // Google(Slow, Gemma): gemma2-9b-it, Meta
 router.post("/", async (req, res) => {
   const userMessage = req.body.message;
   const ALLOWED_MODELS = [
+    "gemma-9b-iterative",
     "llama-3.1-8b-instant",
     "llama-3.3-70b-versatile",
-    "gemma2-9b-it"
+    "meta-llama/llama-guard-4-12b",
+    "deepseek-r1-distill-llama-70b",
+    "mistral-saba-24b",
+    "moonshotai/kimi-k2-instruct",
+    "playai-tts",
+    "compound-beta"
   ];
 
   const selectedModel = ALLOWED_MODELS.includes(req.body.model)

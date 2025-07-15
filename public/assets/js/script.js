@@ -2,6 +2,7 @@ const userInput = document.getElementById("userInput");
 const sendButton = document.getElementById("sendButton");
 const chatMessages = document.querySelector(".chatMessages");
 
+// Send message to backend and handle UI update
 async function sendMessage() {
   const message = userInput.value.trim();
   if (!message) return;
@@ -11,7 +12,7 @@ async function sendMessage() {
   sendButton.disabled = true;
 
   try {
-    const res = await fetch("http://localhost:3000/chat", {
+    const res = await fetch("http://localhost:3000/chat", { // Use relative URL for deployed version
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message })
@@ -26,14 +27,33 @@ async function sendMessage() {
   sendButton.disabled = false;
 }
 
+// Append message to chat and save chat history
 function appendMessage(role, text) {
   const msg = document.createElement("div");
   msg.className = role === "user" ? "userMessage" : "botMessage";
-  msg.textContent = text;
+
+  if (role === "bot") {
+    msg.innerHTML = renderMarkdown(text);
+  } else {
+    msg.textContent = text;
+  }
+
   chatMessages.appendChild(msg);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  msg.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  saveChatToLocalStorage(); // Save after each new message
 }
 
+// Simple markdown-like rendering for links and code
+function renderMarkdown(text) {
+  let html = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  html = html.replace(/\[([^\]]+)]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  return html;
+}
+
+// Keyboard Enter (no shift) to send
 userInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
@@ -41,4 +61,43 @@ userInput.addEventListener("keydown", (e) => {
   }
 });
 
+// Click send button
 sendButton.addEventListener("click", sendMessage);
+
+// Save chat messages to localStorage
+function saveChatToLocalStorage() {
+  const messages = Array.from(chatMessages.children).map(el => ({
+    role: el.classList.contains("userMessage") ? "user" : "bot",
+    content: el.innerHTML
+  }));
+
+  if (messages.length === 0) return;
+  localStorage.setItem("chatHistory", JSON.stringify(messages));
+}
+
+// Load chat messages from localStorage on page load
+function loadChatFromLocalStorage() {
+  const saved = localStorage.getItem("chatHistory");
+  if (!saved) return;
+
+  const messages = JSON.parse(saved);
+  messages.forEach(msg => {
+    const el = document.createElement("div");
+    el.className = msg.role === "user" ? "userMessage" : "botMessage";
+    el.innerHTML = msg.content;
+    chatMessages.appendChild(el);
+  });
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Delete chat history from localStorage and UI
+function deleteChatFromLocalStorage() {
+  localStorage.removeItem("chatHistory");
+  chatMessages.innerHTML = "";
+}
+
+// Load saved chat when page loads
+window.addEventListener("load", loadChatFromLocalStorage);
+
+// Optional: Expose delete function globally or bind to a button in your HTML
+// window.deleteChatFromLocalStorage = deleteChatFromLocalStorage;

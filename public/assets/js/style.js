@@ -44,7 +44,7 @@ function typeTextEffect(element, text, speed = 40) {
 
 // ===== Typing Effect on Header =====
 window.addEventListener('DOMContentLoaded', () => {
-    const text = "Powered By Google's Gemini AI, Hosted By Groq";
+    const text = "Powered By Google's Gemma AI, Hosted By Groq";
     const target = document.querySelector("h3");
     if (target) {
         typeTextEffect(target, text, 80);
@@ -119,4 +119,20 @@ function drawWaveGrid() {
     requestAnimationFrame(drawWaveGrid);
 }
 drawWaveGrid();
+
+// ===== Canvas Resize (Responsive) =====
+function resizeCanvases() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  canvasNode.width = width;
+  canvasNode.height = height;
+  canvasWave.width = width;
+  canvasWave.height = height;
+}
+
+window.addEventListener("load", resizeCanvases);
+window.addEventListener("resize", resizeCanvases);
+window.addEventListener("orientationchange", resizeCanvases);
+
 

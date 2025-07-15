@@ -9,7 +9,7 @@ const router = express.Router();
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "gemma2-9b-it"; // change this if needed
+const MODEL = "llama-3.3-70b-versatile"; // Google(Slow, Gemma): gemma2-9b-it, Meta(Good, LLaMa): llama-3.3-70b-versatile, llama-3.1-8b-instant
 
 router.post("/", async (req, res) => {
   const userMessage = req.body.message;

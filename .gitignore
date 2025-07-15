@@ -1,9 +1,6 @@
 # Node dependencies
 node_modules/
 
-# Environment variables
-.env
-
 # OS metadata
 .DS_Store
 Thumbs.db

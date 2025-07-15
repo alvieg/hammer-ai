@@ -14,7 +14,6 @@ for (const button of buttons) {
         const rotateY = ((x - centerX) / centerX) * 20;
 
         button.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        button.style.boxShadow = `${-rotateY * 2}px ${rotateX * 2}px 20px rgb(14 165 233 / 0.4)`;
 
         const percentX = (x / rect.width) * 100;
         const percentY = (y / rect.height) * 100;
@@ -23,7 +22,7 @@ for (const button of buttons) {
 
     button.addEventListener('mouseleave', function () {
         button.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        button.style.boxShadow = 'none';
+        button.style.boxShadow = 'box-shadow: 0 4px 6px rgb(14 165 233 / 0.6)';
         button.style.background = '#0ea5e9';
     });
 }

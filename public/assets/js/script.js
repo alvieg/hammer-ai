@@ -1,10 +1,12 @@
+// Send message to backend and handle UI update
 const userInput = document.getElementById("userInput");
 const sendButton = document.getElementById("sendButton");
 const chatMessages = document.querySelector(".chatMessages");
+const modelSelect = document.getElementById("model"); // <-- Add this
 
-// Send message to backend and handle UI update
 async function sendMessage() {
   const message = userInput.value.trim();
+  const model = modelSelect.value; // <-- Get selected model
   if (!message) return;
 
   appendMessage("user", message);
@@ -12,20 +14,21 @@ async function sendMessage() {
   sendButton.disabled = true;
 
   try {
-    const res = await fetch("http://localhost:3000/chat", { // Use relative URL for deployed version
+    const res = await fetch("http://localhost:3000/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ message, model }) // <-- Send model
     });
 
     const data = await res.json();
     appendMessage("bot", data.reply || "[No reply]");
   } catch (err) {
-    appendMessage("bot", "[Error contacting server]");
+    appendMessage("bot", "[Error contacting server], " + err);
   }
 
   sendButton.disabled = false;
 }
+
 
 // Append message to chat and save chat history
 function appendMessage(role, text) {

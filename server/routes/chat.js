@@ -9,16 +9,26 @@ const router = express.Router();
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "llama-3.3-70b-versatile"; // Google(Slow, Gemma): gemma2-9b-it, Meta(Good, LLaMa): llama-3.3-70b-versatile, llama-3.1-8b-instant
+const MODEL = "llama-3.1-8b-instant"; // Google(Slow, Gemma): gemma2-9b-it, Meta(Good, LLaMa): llama-3.3-70b-versatile (for deeper thought), llama-3.1-8b-instant (fast, short)
 
 router.post("/", async (req, res) => {
   const userMessage = req.body.message;
+  const ALLOWED_MODELS = [
+    "llama-3.1-8b-instant",
+    "llama-3.3-70b-versatile",
+    "gemma2-9b-it"
+  ];
+
+  const selectedModel = ALLOWED_MODELS.includes(req.body.model)
+    ? req.body.model
+    : MODEL;
+
 
   try {
     const response = await axios.post(
       GROQ_API_URL,
       {
-        model: MODEL,
+        model: selectedModel,
         messages: [
           { role: "system", content: "You are a helpful assistant." },
           { role: "user", content: userMessage }

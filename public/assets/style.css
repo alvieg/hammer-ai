@@ -48,15 +48,25 @@ header {
     margin-top: 1.5rem;
     align-items: center;
     height: auto;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
     z-index: 10;
     gap: 0.5rem;
 }
 
+.tools {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    grid-row: 2;
+}
 
 #userInput {
-    width: 70%;
+    width: 100%;
     padding: 0.75rem;
     border-radius: 8px;
     border: none;
@@ -69,11 +79,30 @@ header {
     resize: none;
     outline: none;
     height: 1.5rem;
-    grid-column: span 7;
+    grid-row: 1;
     gap: 0.5rem;
 }
 
-#userInput:focus {
+#model {
+    background-color: #0ea5e9;
+    /* cyan accent */
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f0f9ff;
+    font-size: 1rem;
+    align-self: center;
+    box-shadow: 0 4px 6px rgb(14 165 233 / 0.6);
+    width: auto;
+    text-align: center;
+    align-items: center;
+    grid-column: span 2;
+}
+
+#userInput:focus, #model:focus {
     outline: none;
 }
 
